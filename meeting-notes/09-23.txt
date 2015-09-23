@@ -1,0 +1,37 @@
+Meeting notes Wednesday Sept 23
+-new project description
+-todo for everyone (ACTION ITEMS)
+-next meeting time
+
+
+--new project description--
+
+Customers will use a Tango tablet, which is an augmented reality and spatial 
+recognition device, to walk around the shed. Tango will display a virtual map 
+of the shed as customers walk. Locations along the shed will be associated with
+specific seedlings, so when customers hold up the Tango to a plant, the tablet
+will show a 3D model of the grown plant, along with care instructions and 
+general information.
+
+Technical details: We are making a webpage using Javascript with three.js and
+Pyry's Tangova library to build the application. 
+
+Tasks: 
+-display the map 
+-move around the map 
+-put plants on the map (capture plant locations with debug display)
+-display plant info (use projectors in three.js to implement)
+-build plantdex
+-make debug display showing tablet pose
+
+
+--todo for everyone (ACTION ITEMS)--
+Sara: build small plantdex 
+Abdel: webpage, displaying plant info
+Myles: webpage, moving the camera with button input
+Gillie: create debug display  
+Skye:
+
+--next meeting time--
+Next meeting will be at 2:00pm on Friday Sept 25.
+
