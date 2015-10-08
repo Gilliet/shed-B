@@ -1,10 +1,14 @@
 body {
 	font-family: Monospace;
-	font-size: 3em;
+	font-size: 10px;
 	background-color: #aaa;
 	color: #fff;
 	margin: 0px;
 	overflow: hidden;
+}
+
+.mything {
+	font-size: 10px;
 }
 
 .clock {

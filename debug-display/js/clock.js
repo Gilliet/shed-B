@@ -3,37 +3,45 @@
  * author: Gillie Rosen, gtr@andrew.cmu.edu
 */
 
-window.onload = initClock;
+//window.onload = initClock;
+$(function(){
+  setTimeout(initClock, 1000);
+});
+
+// function updateClock() {
+//   var now = new Date();
+//   var min = now.getMinutes();
+//   var sec = now.getSeconds();
+//   if (min < 10) min = "0" + min;  // insert a leading zero
+//   if (sec < 10) sec = "0" + sec;
+//  document.getElementById('posDisplay').innerHTML
+//         = "Pos:" + min ;
+//           document.getElementById('oriDisplay').innerHTML
+//         = "Ori:" + sec ;  
+// }
  
 function initClock() {
-  var now = new Date();
-  var min = now.getMinutes();
-  var sec = now.getSeconds();
-  if (min < 10) min = "0" + min;  // insert a leading zero
-  if (sec < 10) sec = "0" + sec;
-  document.getElementById('posDisplay').innerHTML
-        = "Pos:" + min ;
-          document.getElementById('oriDisplay').innerHTML
-        = "Ori:" + sec ;
-  setTimeout('initClock()', 500);
+
+  
+// setTimeout(initClock, 500);
   
 
 document.getElementById("record").onclick = function() {recordClick()};
 
 /* TANGO STUFF */ 
-/* 
+
 // simplest way to start motion tracking on an ADF with one call
 var adfName = ""; //note: you use the *name* and not the *uuid*
                          //leave adfName as null or "" to not load an adf
-Tangova.start(tangoCallback, onErrorCallback, adfName);
+Tangova.start(tangoCallback, tangoCallback, adfName);
 
 // to stop the motion tracking
 // note: these callbacks won't be called at the moment (but the function does work)
-Tangova.stopTango(successCallback, errorCallback);
+//Tangova.stopTango(successCallback, errorCallback);
 
 // to set the maximum pose update rate (starts at 30hz)
 Tangova.setMaxUpdateRate(15.5); // 15.5 hz
-*/
+
 }
 
 function tangoCallback(data) {
@@ -44,14 +52,25 @@ function tangoCallback(data) {
   } else if(data.baseFrame === "START_OF_SERVICE") {
     // localized against where the tango was when the service started
   }
-  console.log(data.rotation);
-  console.log(data.translation);
+  // console.log(data.rotation);
+  // console.log(data.translation);
+
+  document.getElementById('posDisplay').innerHTML = "Pos:" 
+          + (data.translation[0]).toFixed(4) + ", "
+          + (data.translation[1]).toFixed(4) + ", "
+          + (data.translation[2]).toFixed(4) ;
+
+  document.getElementById('oriDisplay').innerHTML = "Ori:" 
+          + (data.rotation[0]).toFixed(4) + ", "
+          + (data.rotation[1]).toFixed(4) + ", "
+          + (data.rotation[2]).toFixed(4) + ", "
+          + (data.rotation[3]).toFixed(4);
 }
 
 function recordClick(){
 
   //TANGO STUFF GOES HERE???? 
-    var now = new Date();
+ /*   var now = new Date();
     var hrs = now.getHours();
   var min = now.getMinutes();
   var sec = now.getSeconds();
@@ -61,6 +80,15 @@ newlog.innerHTML = hrs + ":" + min + ":" + sec + " - ";
   thelog.appendChild(newlog.firstChild);
 document.getElementById("record").innerHTML = "Recorded!";
  setTimeout('resetButton()', 1500);
+ */
+var thelog = document.getElementById("log");
+var newlog = document.createElement("minilog");
+newlog.innerHTML = document.getElementById('posDisplay').innerHTML + " "
+        + document.getElementById('oriDisplay').innerHTML + " - ";
+  thelog.appendChild(newlog.firstChild);
+document.getElementById("record").innerHTML = "Recorded!";
+ setTimeout('resetButton()', 1500);
+
 }
 
 function resetButton(){
