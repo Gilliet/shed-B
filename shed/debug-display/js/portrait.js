@@ -13,15 +13,28 @@ var directionalLight2 = null;
 var color1 = null; 
 var color2 = null; 
 
+var dirDx = 1;
+
+  var container;
+
+  var camera, renderer;
 
 // this function sets up the portrait: edit it to load your portrait and
 // position it so it is visible to the camera
 function initPortrait(scene, renderer) {
 
+camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 2000 );
+    
+    camera.position.z = 5;
+    camera.position.x = 0;
+    camera.position.y = 0.4;
+
   // first, set up some lights
 
-  color1 = new THREE.Color(0x00FFCC);
-  color2 = new THREE.Color(0xCCCCFF);//0xFFCC00);
+  //color1 = new THREE.Color(0x00FFCC);
+  //color2 = new THREE.Color(0xCCCCFF);//0xFFCC00);
+    color1 = new THREE.Color(0xDDDDDD);
+  color2 = new THREE.Color(0xCCCCCC);//0xFFCC00);
   var ambient = new THREE.AmbientLight( 0x202020);// 0x303030 );
   scene.add( ambient );
 
@@ -52,6 +65,7 @@ function initPortrait(scene, renderer) {
   };
 
   // load a texture
+  
   var texture = new THREE.Texture();
 
   var texloader = new THREE.ImageLoader( manager );
@@ -62,19 +76,25 @@ function initPortrait(scene, renderer) {
   } );
 
   // create a basic lambertian material with our texture
-  var material = new THREE.MeshLambertMaterial({map: texture});
+  var material = new THREE.MeshLambertMaterial();
 
   // load obj model
   var objloader = new THREE.OBJLoader( manager );
  // objloader.load( 'meshes/placeholder_person.obj', material, function ( object ) {
-objloader.load( 'meshes/small-me-tidy.obj', material, function ( object ) {
+objloader.load( 'apt0.obj', material, function ( object ) {
+  //objloader.load( 'meshes/small-me-tidy.obj', material, function ( object ) {
     // this is a good spot to apply what transforms you need to the model
-    object.rotation.set(-1.3, 0.0, -1.0, 'YXZ');
+  //  object.rotation.set(-1.3, 0.0, -1.0, 'YXZ');
+    object.rotation.set(-1.5708, 0.0, 0, 'YXZ');
+  
     //object.scale.set(1.2, 1.2, 1.2);
-     object.scale.set(0.3, 0.3, 0.3);
+  //   object.scale.set(0.3, 0.3, 0.3);
+object.scale.set(0.005, 0.005, 0.005);
+
     //object.position.set(0.0, -0.5, 0.0);
    // object.position.set(0.0,0.0,-2.0);
-    object.position.set(2.35,-3.5,-3);
+   // object.position.set(2.35,-3.5,-3);
+object.position.set(0,0,0);
 
     // make sure to actually add it to the scene or it won't show up!
     rotatorNode.add( object );
@@ -96,16 +116,65 @@ objloader.load( 'meshes/small-me-tidy.obj', material, function ( object ) {
     // (feel free to replace this with something else!)
    var x = Math.max(-2.0, Math.min(2.0, pixelToRadians(cursorX)));
     var y = Math.max(-2.0, Math.min(2.0, pixelToRadians(cursorY)));
-  
+
+x = pixelToDist(cursorX);
+y = pixelToDist(cursorY);
+
  // var x = rotatorNode.rotation.x+0.01;
  // var y = rotatorNode.rotation.y+0.01;
 
-   rotatorNode.rotation.set(y, x, 0, 'YXZ');
 
+/*
+  // rotatorNode.rotation.set(y, x, 0, 'YXZ');
+  var currZ = camera.position.z;
+  var currX = camera.position.x; 
+    var currY = camera.position.y; 
+
+  //console.log(currX);
+  //console.log(currY);
+ // console.log(currZ);
+
+console.log(camera.getWorldDirection());
+
+//camera.position.set(currY+x,0,0.5,'YXZ');
+camera.position.x = currX+0.005*x;
+camera.position.y = currY;//+0.1*x; 
+camera.position.z = currZ+0.005*y;//+0.1*y;
+*/
+
+  var currZ = scene.position.z;
+  var currX = scene.position.x; 
+    var currY = scene.position.y; 
+
+  //console.log(currX);
+  //console.log(currY);
+ // console.log(currZ);
+
+
+//camera.position.set(currY+x,0,0.5,'YXZ');
+scene.position.x = currX-0.005*x;
+scene.position.y = currY;//+0.1*x; 
+scene.position.z = currZ-0.005*y;//+0.1*y;
+
+
+
+
+//currZ+y
+/*
    color1.offsetHSL(0.0008,0,0);
    directionalLight.color = color1;
    color2.offsetHSL(-0.0008,0,0);
    directionalLight2.color = color2;
+*/
+   var dx = directionalLight2.position.x;
+   //console.log(dx)
+   directionalLight2.position.set(dx+dirDx*0.01,-0.5,1);
+   // camera.lookAt( scene.position );
+   if (dx > 2 || dx < -2){
+    dirDx = (-1)*dirDx; 
+    directionalLight2.position.set(dx+dirDx*0.01,-0.5,1);
+   }
+    renderer.render( scene, camera );
 
   }
 
@@ -113,5 +182,14 @@ objloader.load( 'meshes/small-me-tidy.obj', material, function ( object ) {
 function pixelToRadians(pixval) {
   var scalefactor = 0.005;
   return Math.tanh(pixval * scalefactor);
+}
+
+function pixelToDist(pixval){
+  var scaleFactor = 0.005;
+  if (pixval < 150 && pixval > -150){
+    return 0;
+
+  } 
+  return pixval*scaleFactor;
 }
 

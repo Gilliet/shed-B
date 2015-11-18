@@ -8,17 +8,6 @@ $(function(){
   setTimeout(initClock, 1000);
 });
 
-// function updateClock() {
-//   var now = new Date();
-//   var min = now.getMinutes();
-//   var sec = now.getSeconds();
-//   if (min < 10) min = "0" + min;  // insert a leading zero
-//   if (sec < 10) sec = "0" + sec;
-//  document.getElementById('posDisplay').innerHTML
-//         = "Pos:" + min ;
-//           document.getElementById('oriDisplay').innerHTML
-//         = "Ori:" + sec ;  
-// }
  
 function initClock() {
 
@@ -28,11 +17,14 @@ function initClock() {
 
 document.getElementById("record").onclick = function() {recordClick()};
 
+ document.getElementById('tango').innerHTML= "tango...." ;
+
 /* TANGO STUFF */ 
 
 // simplest way to start motion tracking on an ADF with one call
 var adfName = ""; //note: you use the *name* and not the *uuid*
                          //leave adfName as null or "" to not load an adf
+
 Tangova.start(tangoCallback, tangoCallback, adfName);
 
 // to stop the motion tracking
@@ -44,9 +36,12 @@ Tangova.setMaxUpdateRate(15.5); // 15.5 hz
 
 }
 
+
+
+
+
 function tangoCallback(data) {
-  document.getElementById('tango').innerHTML
-        = "tango!" ;
+  document.getElementById('tango').innerHTML= "tango!" ;
   if(data.baseFrame === "AREA_DESCRIPTION") {
     // localized against the loaded area description
   } else if(data.baseFrame === "START_OF_SERVICE") {
@@ -69,25 +64,13 @@ function tangoCallback(data) {
 
 function recordClick(){
 
-  //TANGO STUFF GOES HERE???? 
- /*   var now = new Date();
-    var hrs = now.getHours();
-  var min = now.getMinutes();
-  var sec = now.getSeconds();
-var thelog = document.getElementById("log");
-var newlog = document.createElement("minilog");
-newlog.innerHTML = hrs + ":" + min + ":" + sec + " - ";
-  thelog.appendChild(newlog.firstChild);
-document.getElementById("record").innerHTML = "Recorded!";
- setTimeout('resetButton()', 1500);
- */
 var thelog = document.getElementById("log");
 var newlog = document.createElement("minilog");
 newlog.innerHTML = document.getElementById('posDisplay').innerHTML + " "
         + document.getElementById('oriDisplay').innerHTML + " - ";
   thelog.appendChild(newlog.firstChild);
 document.getElementById("record").innerHTML = "Recorded!";
- setTimeout('resetButton()', 1500);
+ setTimeout(resetButton, 1500);
 
 }
 

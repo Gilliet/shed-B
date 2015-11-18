@@ -73,6 +73,7 @@ function animate() {
   // portrait update (defined in portrait.js)
   animatePortrait(1.0/60.0, mouseX, mouseY);
 
+  //animatePortrait(1.0/60.0,0,0);
   render();
 }
 

@@ -19,3 +19,29 @@ body {
 	height: 300px;
 	background-color: #000;
 }
+
+.portrait {
+	position: absolute;
+	top: 100px;
+	left: 100px;
+	width: 800px;
+	height: 600px;
+	background-color: #000;
+}
+
+.houseWalk{
+	position: absolute;
+	top: 100px;
+	left: 100px;
+	width: 800px;
+	height: 600px;
+	background-color: #000;
+}
+
+#nametext {
+	position: absolute;
+	top: 470px;
+	left: 220px;
+	background-color: rgba(0,0,0,0.5);
+	font-size: 14px;
+}
