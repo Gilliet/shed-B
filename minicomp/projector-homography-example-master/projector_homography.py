@@ -1,6 +1,5 @@
 import numpy as np
 import cv2
-import cv
 
 # this just handles actually showing the window 
 # and the dots where you've clicked
@@ -10,13 +9,13 @@ class SelectView:
         self.clicks = []
         self.winname = winname
         cv2.namedWindow(self.winname)
-        cv.SetMouseCallback(self.winname, self.mouseHandler, 0)
+        cv2.setMouseCallback(self.winname, self.mouseHandler, 0)
 
     def addClick(self, x, y):
         self.clicks.append((x,y))
 
     def mouseHandler(self, event, x, y, flags, params):
-        if event == cv.CV_EVENT_LBUTTONDOWN:
+        if event == cv2.EVENT_LBUTTONDOWN:
             self.addClick(x, y)
 
     def renderWindow(self):
@@ -60,7 +59,7 @@ if __name__ == '__main__':
         clickview.renderWindow()
         if len(clickview.clicks) == 4:
             break
-        keycode = cv.WaitKey(30)
+        keycode = cv2.waitKey(30)
     clickview.finishSelection()
     print(clickview.clicks)
 
@@ -70,7 +69,7 @@ if __name__ == '__main__':
     print(M)
 
     # warp image
-    inimage = cv2.imread("spill.png")
+    inimage = cv2.imread("2by2ex.png")
     warpimage = warp_image(inimage, M, True)
     cv2.imshow("warped", warpimage)
-    cv.WaitKey(0)
+    cv2.waitKey(0)

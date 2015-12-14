@@ -1,6 +1,5 @@
 import numpy as np
 import cv2
-import cv
 import math
 import random
 
@@ -37,4 +36,4 @@ if __name__ == '__main__':
 		draw_tiles(image, tilevalues, nrows, ncols)
 
 		cv2.imshow("image", image)
-		cv.WaitKey(30)
+		cv2.waitKey(30)
