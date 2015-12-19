@@ -18,6 +18,6 @@ Abdel - Kinect, Google Tango
 shed B team members and responsibilities: 
 Guo-Model
 Gillie -full stack (debug interface)
-Abdel - displaying plant info
+Abdel - Kinect Path Tracking
 Myles - gui map navigation
 Skye- Final website display
